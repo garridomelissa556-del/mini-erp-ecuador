@@ -1,9 +1,12 @@
 import Ventas from './components/Ventas'
+import Reportes from './components/Reportes'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 function App() {
   const [productos, setProductos] = useState([])
+  //dashboard
+  const [refreshVentas, setRefreshVentas] = useState(0)
   // Aquí guardamos lo que el usuario escribe en el formulario
   const [nuevoProducto, setNuevoProducto] = useState({
     nombre: '',
@@ -13,10 +16,13 @@ function App() {
   })
 
   // Función para cargar los productos (la sacamos aparte para reusarla)
-  const cargarProductos = () => {
-    axios.get('http://localhost:8080/api/productos')
-      .then(res => setProductos(res.data))
-  }
+const cargarProductos = () => {
+  axios.get('http://localhost:8080/api/productos')
+    .then(res => {
+      setProductos(res.data)
+      setRefreshVentas(prev => prev + 1) 
+    })
+}
 
   useEffect(() => { cargarProductos() }, [])
 
@@ -39,6 +45,8 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 p-6 font-sans">
       <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">🇪🇨 Mini ERP Ecuador</h1>
+
+      <Reportes actualizar={refreshVentas} />
 
       {/* --- FORMULARIO PROFESIONAL --- */}
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-10">
