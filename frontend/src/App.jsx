@@ -1,3 +1,4 @@
+import Ventas from './components/Ventas'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -64,6 +65,7 @@ function App() {
           </button>
         </form>
       </div>
+      <Ventas alVender={cargarProductos} />
 
       {/* --- TABLA DE INVENTARIO (La que ya tenías) --- */}
       <div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow-sm border border-gray-100">
